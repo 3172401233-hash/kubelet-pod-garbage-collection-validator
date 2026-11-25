@@ -1,0 +1,62 @@
+{
+  "pods": [
+    {
+      "uid": "old-pod-uid",
+      "containers": [
+        {
+          "name": "app",
+          "state": "terminated",
+          "image": "registry.example/app:1"
+        }
+      ],
+      "volumes": [
+        {
+          "name": "shared-image-volume",
+          "path": "/var/lib/kubelet/pods/old-pod-uid/volumes/kubernetes.io~image/img",
+          "referenced_by": ["old-pod-uid", "new-pod-uid"]
+        }
+      ],
+      "is_static": false,
+      "mirror_pod_exists": true,
+      "deletion_timestamp": "2026-11-25T01:02:03+00:00"
+    },
+    {
+      "uid": "new-pod-uid",
+      "containers": [
+        {
+          "name": "app",
+          "state": "running",
+          "image": "registry.example/app:1"
+        }
+      ],
+      "volumes": [
+        {
+          "name": "shared-image-volume",
+          "path": "/var/lib/kubelet/pods/old-pod-uid/volumes/kubernetes.io~image/img",
+          "referenced_by": ["old-pod-uid", "new-pod-uid"]
+        }
+      ],
+      "is_static": false,
+      "mirror_pod_exists": true
+    },
+    {
+      "uid": "static-pod-uid",
+      "containers": [
+        {
+          "name": "agent",
+          "state": "terminated",
+          "image": "registry.example/agent:2"
+        }
+      ],
+      "is_static": true,
+      "mirror_pod_exists": false,
+      "mirror_pod_uid": "mirror-pod-uid",
+      "deletion_timestamp": "2026-11-25T01:02:03+00:00"
+    }
+  ],
+  "orphan_directories": [
+    {
+      "path": "/var/lib/kubelet/pods/gone-pod-uid/volumes/kubernetes.io~image/leak"
+    }
+  ]
+}
